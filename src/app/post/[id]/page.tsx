@@ -6,7 +6,7 @@ import BlogSidebar from '@/components/BlogSidebar';
 import AuthorBox from '@/components/AuthorBox';
 import RelatedPosts from '@/components/RelatedPosts';
 import CommentsSection from '@/components/Comments';
-import { Calendar, Clock, Mail, Facebook, Twitter, Instagram, ArrowRight } from 'lucide-react';
+import { Calendar, Clock, Mail, ArrowRight } from 'lucide-react';
 import { FacebookIcon, TwitterIcon, InstagramIcon } from '@/components/Icons';
 import ReactMarkdown from 'react-markdown';
 import React from 'react';
