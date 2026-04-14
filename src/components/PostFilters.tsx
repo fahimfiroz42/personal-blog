@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { posts } from '@/data/posts';
+import { usePosts } from '@/context/PostContext';
 import BlogCard from './BlogCard';
 
 export default function PostFilters() {
+  const { posts } = usePosts();
   const [activeCategory, setActiveCategory] = useState<'All' | 'Science' | 'German' | 'IELTS'>('All');
 
   const categories = ['All', 'Science', 'German', 'IELTS'] as const;

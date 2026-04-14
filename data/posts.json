@@ -1,0 +1,30 @@
+[
+  {
+    "id": "1",
+    "title": "Quantum Entanglement: Spooky Action at a Distance",
+    "category": "Science",
+    "excerpt": "Exploring the mysterious connection between particles that defies classical physics.",
+    "content": "Quantum entanglement is one of the most baffling and beautiful phenomenons in modern physics. When two particles become 'entangled,' they share a single existence—no matter how far apart they are. \n\n### The Heart of Paradox\n\nEinstein famously called it 'spooky action at a distance.' If you measure the spin of one entangled particle on Earth, you instantly know the spin of its partner on Mars. This instantaneous communication seems to defy the speed of light, but it actually reveals a deeper layer of reality where space is not a barrier.\n\n> 'Nature is not only queerer than we suppose, but queerer than we can suppose.' - J.B.S. Haldane\n\n### Key Applications\n\n1. **Quantum Computing**: Utilizing qubits that exist in multiple states simultaneously.\n2. **Secure Communication**: Quantum cryptography ensures that any 'eavesdropping' instantly changes the state, alerting the sender.\n3. **Precision Measurement**: Enhancing the sensitivity of atomic clocks and gravitational wave detectors.\n\n### The Future of the Spooky Action\n\nResearchers are currently working on 'Quantum Internet,' a network where information is teleported rather than transmitted through cables. While we are still years away from a practical global network, the foundation laid by entanglement is unshakable.",
+    "date": "2026-04-10",
+    "author": "Alex Scientist",
+    "featured": true
+  },
+  {
+    "id": "2",
+    "title": "Top 10 German Idioms for Beginners",
+    "category": "German",
+    "excerpt": "Learn common expressions to sound like a native German speaker.",
+    "content": "Learning a new language is more than just grammar and vocabulary—it's about understanding the soul of the culture. In German, idioms are the spicy seasoning that makes your speech sound authentic.\n\n### 1. Tomaten auf den Augen haben\nLiterally: To have tomatoes on one's eyes. \nMeaning: To be oblivious to what is happening around you.\n\n### 2. Um den heißen Brei herumreden\nLiterally: To talk around the hot porridge. \nMeaning: To beat around the bush.\n\n### 3. Da steppt der Bär\nLiterally: The bear dances there. \nMeaning: It's a great party / something exciting is happening.\n\n### Why Use Idioms?\nGerman speakers appreciate when learners try to use local expressions. It shows a deep level of interest and effort. Start with one or two in your next conversation!",
+    "date": "2026-04-12",
+    "author": "Karl Language"
+  },
+  {
+    "id": "3",
+    "title": "Mastering the IELTS Speaking Section",
+    "category": "IELTS",
+    "excerpt": "Proven strategies to boost your confidence and score in the IELTS speaking test.",
+    "content": "The IELTS Speaking test is a 11–14 minute face-to-face interview with an examiner. It is designed to evaluate your ability to communicate effectively in English.\n\n### Part 1: The Warm Up\nIn this section, you'll answer general questions about yourself and familiar topics like home, family, or work. \n**Tip**: Give extended answers. Don't just say 'Yes' or 'No'.\n\n### Part 2: The Long Turn\nYou will be given a cue card with a topic. You have 1 minute to prepare and 2 minutes to speak.\n**Tip**: Use the preparation time wisely to jot down keywords, not full sentences.\n\n### Part 3: The Discussion\nThe examiner will ask more abstract questions related to the topic in Part 2.\n**Tip**: Think about 'the big picture.' Use transition words like 'Furthermore,' 'Conversely,' and 'In conclusion.'",
+    "date": "2026-04-13",
+    "author": "Sarah Exam"
+  }
+]

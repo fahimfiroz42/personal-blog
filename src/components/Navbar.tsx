@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { Search, Menu, Sun, Moon } from 'lucide-react';
+import { Search, Rss, Sun, Moon, Menu } from 'lucide-react';
+import { FacebookIcon, TwitterIcon, InstagramIcon } from '@/components/Icons';
 import { useState } from 'react';
 
 export default function Navbar() {
@@ -13,39 +14,43 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <div className="flex items-center gap-8">
-          <Link href="/" className="text-2xl font-bold tracking-tighter text-primary">
-            EDUBlog
-          </Link>
-          <div className="hidden md:flex items-center gap-6 text-sm font-medium">
-            <Link href="/category/science" className="hover:text-primary transition-colors">Science</Link>
-            <Link href="/category/german" className="hover:text-primary transition-colors">German</Link>
-            <Link href="/category/ielts" className="hover:text-primary transition-colors">IELTS</Link>
-          </div>
-        </div>
-
+    <header className="w-full bg-white dark:bg-[#121212] border-b border-border">
+      {/* Top Bar: Socials & Theme Toggle */}
+      <div className="container mx-auto px-4 h-12 flex items-center justify-between border-b border-border/50 text-muted-foreground">
         <div className="flex items-center gap-4">
-          <div className="relative hidden sm:block">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <input
-              type="search"
-              placeholder="Search posts..."
-              className="h-9 w-64 rounded-full bg-secondary pl-9 pr-4 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
-            />
-          </div>
-          <button
-            onClick={toggleDarkMode}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary hover:bg-muted transition-colors"
-          >
-            {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+          <FacebookIcon className="h-4 w-4 hover:text-primary cursor-pointer transition-colors" />
+          <TwitterIcon className="h-4 w-4 hover:text-primary cursor-pointer transition-colors" />
+          <InstagramIcon className="h-4 w-4 hover:text-primary cursor-pointer transition-colors" />
+          <Rss className="h-4 w-4 hover:text-primary cursor-pointer transition-colors" />
+        </div>
+        <div className="flex items-center gap-4">
+          <button onClick={toggleDarkMode} className="hover:text-primary transition-colors">
+            {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
-          <button className="md:hidden">
-            <Menu className="h-6 w-6" />
-          </button>
+          <Search className="h-4 w-4 hover:text-primary cursor-pointer transition-colors" />
         </div>
       </div>
-    </nav>
+
+      {/* Main Branding */}
+      <div className="container mx-auto px-4 py-10 flex flex-col items-center">
+        <Link href="/" className="text-6xl font-heading font-bold text-foreground hover:opacity-80 transition-opacity tracking-tight">
+          Farsi&apos;s Blogs<span className="text-primary">.</span>
+        </Link>
+        <p className="text-xs uppercase tracking-[0.3em] font-bold text-muted-foreground mt-4">
+          Science • German • IELTS
+        </p>
+      </div>
+
+      {/* Navigation */}
+      <nav className="container mx-auto px-4 border-t border-border/50">
+        <ul className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 py-4 text-[13px] font-bold uppercase tracking-widest text-foreground/80">
+          <li><Link href="/" className="hover:text-primary transition-colors">Home</Link></li>
+          <li><Link href="/category/science" className="hover:text-primary transition-colors">Science</Link></li>
+          <li><Link href="/category/german" className="hover:text-primary transition-colors">German</Link></li>
+          <li><Link href="/category/ielts" className="hover:text-primary transition-colors">IELTS Prep</Link></li>
+          <li><Link href="/studio" className="hover:text-primary transition-colors">Manage</Link></li>
+        </ul>
+      </nav>
+    </header>
   );
 }
