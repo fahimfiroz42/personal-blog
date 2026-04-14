@@ -176,9 +176,12 @@ export default function StudioDashboard() {
                 <tr>
                   <td colSpan={4} className="px-6 py-20 text-center space-y-4">
                     <div className="text-xl font-heading font-bold text-muted-foreground/50 italic">The Archive is Empty.</div>
-                    <Button asChild variant="outline" className="rounded-full">
-                      <Link href="/studio/new">Begin Writing</Link>
-                    </Button>
+                    <Link 
+                      href="/studio/new"
+                      className={cn(buttonVariants({ variant: "outline" }), "rounded-full")}
+                    >
+                      Begin Writing
+                    </Link>
                   </td>
                 </tr>
               )}
