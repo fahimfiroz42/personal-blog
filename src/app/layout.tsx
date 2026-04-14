@@ -27,7 +27,7 @@ export default function RootLayout({
       <body className="min-h-screen bg-[#fcfcfc] dark:bg-[#121212] font-sans antialiased text-[#1a1a1a] dark:text-gray-200 transition-colors duration-300">
         <PostProvider>
           <Navbar />
-          <main className="container mx-auto px-4 py-12">
+          <main className="container mx-auto px-4 pt-60 pb-12">
             {children}
           </main>
           <Footer />

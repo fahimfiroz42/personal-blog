@@ -2,11 +2,45 @@
 
 import { usePosts } from '@/context/PostContext';
 import BlogCard from '@/components/BlogCard';
-import { Mail, Send } from 'lucide-react';
-import React from 'react';
+import LoadingSpinner from '@/components/LoadingSpinner';
+import { Mail, Send, ChevronDown, SearchX } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 export default function Home() {
   const { posts } = usePosts();
+  const searchParams = useSearchParams();
+  const [visibleCount, setVisibleCount] = useState(6);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const observerTarget = useRef(null);
+  
+  const query = searchParams.get('s')?.toLowerCase();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !isLoadingMore && visibleCount < regularPosts.length) {
+          loadMore();
+        }
+      },
+      { threshold: 1.0 }
+    );
+
+    if (observerTarget.current) {
+      observer.observe(observerTarget.current);
+    }
+
+    return () => observer.disconnect();
+  }, [visibleCount, isLoadingMore, posts, query]);
+
+  const loadMore = () => {
+    setIsLoadingMore(true);
+    // Simulate a network delay for a "premium" feel
+    setTimeout(() => {
+      setVisibleCount((prev) => prev + 3);
+      setIsLoadingMore(false);
+    }, 800);
+  };
   
   if (posts.length === 0) {
     return (
@@ -16,8 +50,26 @@ export default function Home() {
     );
   }
 
-  const featuredPost = posts.find((p) => p.featured) || posts[0];
-  const regularPosts = posts.filter(p => p.id !== featuredPost.id);
+  const allPosts = query 
+    ? posts.filter(p => p.title.toLowerCase().includes(query) || p.excerpt.toLowerCase().includes(query))
+    : posts;
+
+  if (query && allPosts.length === 0) {
+    return (
+      <div className="flex min-h-[50vh] flex-col items-center justify-center text-center space-y-6">
+        <div className="h-20 w-20 bg-muted rounded-full flex items-center justify-center">
+          <SearchX className="h-10 w-10 text-muted-foreground/40" />
+        </div>
+        <h2 className="text-3xl font-heading font-bold italic">Archive search: No results.</h2>
+        <p className="text-muted-foreground max-w-sm">We couldn&apos;t find any stories matching &quot;{query}&quot;. Try a different keyword.</p>
+        <button onClick={() => window.location.href = '/'} className="underline text-[10px] font-black uppercase tracking-widest text-primary">Clear Search</button>
+      </div>
+    );
+  }
+
+  const featuredPost = query ? allPosts[0] : (allPosts.find((p) => p.featured) || allPosts[0]);
+  const regularPosts = allPosts.filter(p => p.id !== (featuredPost?.id || ''));
+  const displayedPosts = regularPosts.slice(0, visibleCount);
 
   return (
     <div className="space-y-20">
@@ -28,16 +80,30 @@ export default function Home() {
 
       {/* Main Content Grid */}
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-        {/* We can intersperse posts or just list them */}
-        {regularPosts.map((post, idx) => (
-          <div key={post.id} className={idx === 1 ? 'lg:col-span-1' : ''}>
+        {displayedPosts.map((post) => (
+          <div key={post.id} className="animate-in fade-in slide-in-from-bottom-4 duration-700">
             <BlogCard post={post} />
           </div>
         ))}
       </section>
 
+      {/* Infinite Scroll Sentinel & Spinner */}
+      <div ref={observerTarget} className="w-full flex justify-center py-10">
+        {isLoadingMore && <LoadingSpinner />}
+        {!isLoadingMore && visibleCount < regularPosts.length && (
+           <div className="text-[9px] uppercase font-black tracking-[0.3em] text-muted-foreground/30 italic">
+             Scroll for more stories
+           </div>
+        )}
+        {!isLoadingMore && visibleCount >= regularPosts.length && regularPosts.length > 0 && (
+           <div className="text-[9px] uppercase font-black tracking-[0.3em] text-muted-foreground/30 italic">
+             End of Archive
+           </div>
+        )}
+      </div>
+
       {/* Subscribe Section */}
-      <section className="py-20 border-y border-border flex flex-col items-center text-center bg-white dark:bg-[#1e1e1e]">
+      <section className="py-24 border-y border-border flex flex-col items-center text-center bg-white dark:bg-[#121212] rounded-[3rem] my-20">
         <div className="max-w-xl mx-auto px-4">
           <Mail className="h-10 w-10 text-primary mb-6 mx-auto" />
           <h2 className="text-4xl font-heading font-bold mb-4">Subscribe to <span className="text-primary italic">Farsi&apos;s Blogs</span></h2>
@@ -55,23 +121,9 @@ export default function Home() {
               <Send className="h-4 w-4" />
             </button>
           </div>
-          <div className="mt-8 flex items-center justify-center gap-4 grayscale opacity-50">
-            {/* Social icons again here if needed, keeping it minimalist */}
-          </div>
         </div>
       </section>
 
-      {/* "Masonry" effect demo - just more posts */}
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-10">
-        {/* If we had more posts, we'd continue here */}
-      </section>
-      
-      {/* Pagination */}
-      <div className="flex justify-center mt-20">
-        <button className="bg-primary text-white inline-flex items-center justify-center px-10 py-4 font-bold uppercase tracking-[.2em] text-[11px] hover:scale-105 transition-transform">
-          Next Posts
-        </button>
-      </div>
     </div>
   );
 }

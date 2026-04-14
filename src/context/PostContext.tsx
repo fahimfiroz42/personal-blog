@@ -62,8 +62,18 @@ export function PostProvider({ children }: { children: React.ReactNode }) {
   };
 
   const updatePost = async (id: string, updates: Partial<BlogPost>) => {
-    // For now, updatePost is not fully implemented on server, but we follow the pattern
-    console.log('Update not yet implemented on server side persistence');
+    try {
+      const res = await fetch(`/api/posts/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updates),
+      });
+      if (res.ok) {
+        await fetchPosts();
+      }
+    } catch (error) {
+      console.error('Failed to update post:', error);
+    }
   };
 
   return (

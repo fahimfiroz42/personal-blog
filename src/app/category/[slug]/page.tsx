@@ -1,22 +1,32 @@
 'use client';
 
+import React from 'react';
 import { usePosts } from '@/context/PostContext';
 import BlogCard from '@/components/BlogCard';
-import Sidebar from '@/components/Sidebar';
-import { notFound } from 'next/navigation';
-import React from 'react';
+import BlogSidebar from '@/components/BlogSidebar';
+import { useSearchParams, notFound } from 'next/navigation';
+import Pagination from '@/components/Pagination';
 
-export default function CategoryPage({ params }: { params: { slug: string } }) {
+export default function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = React.use(params);
+  const searchParams = useSearchParams();
   const { posts, isLoading } = usePosts();
+  
+  const currentPage = Number(searchParams.get('page')) || 1;
+  const postsPerPage = 6;
   
   if (isLoading) {
     return <div className="p-20 text-center animate-pulse italic font-heading text-2xl">Filtering Stories...</div>;
   }
 
-  const categoryName = params.slug.charAt(0).toUpperCase() + params.slug.slice(1);
+  const categoryName = slug.charAt(0).toUpperCase() + slug.slice(1);
   const filteredPosts = posts.filter(
-    (p) => p.category.toLowerCase() === params.slug.toLowerCase()
+    (p) => p.category.toLowerCase() === slug.toLowerCase()
   );
+
+  const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
+  const startIndex = (currentPage - 1) * postsPerPage;
+  const displayedPosts = filteredPosts.slice(startIndex, startIndex + postsPerPage);
 
   if (filteredPosts.length === 0) {
     return (
@@ -44,13 +54,19 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
         <div className="lg:col-span-8 space-y-12">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-            {filteredPosts.map((post) => (
+            {displayedPosts.map((post) => (
               <BlogCard key={post.id} post={post} />
             ))}
           </div>
+          
+          <Pagination 
+            totalPages={totalPages} 
+            currentPage={currentPage} 
+            baseUrl={`/category/${slug}`} 
+          />
         </div>
         <div className="lg:col-span-4">
-          <Sidebar />
+          <BlogSidebar />
         </div>
       </div>
     </div>

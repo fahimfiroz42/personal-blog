@@ -2,8 +2,14 @@
 
 import React, { useState } from 'react';
 import { usePosts } from '@/context/PostContext';
-import { Plus, Trash2, Edit, ExternalLink, LayoutDashboard } from 'lucide-react';
+import { Plus, Trash2, Edit, ExternalLink, LayoutDashboard, Search, Filter } from 'lucide-react';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export default function StudioDashboard() {
   const { posts, deletePost, isLoading } = usePosts();
@@ -21,126 +27,164 @@ export default function StudioDashboard() {
   if (!isAuthenticated) {
     return (
       <div className="max-w-md mx-auto py-32 px-4 text-center">
-        <h1 className="text-3xl font-heading font-bold mb-8 italic">Farsi&apos;s Blogs Studio Access</h1>
-        <div className="bg-card border border-border p-8 rounded-3xl shadow-xl space-y-6">
-          <p className="text-sm text-muted-foreground uppercase font-bold tracking-widest">Enter Secret Key</p>
-          <input
-            type="password"
-            placeholder="Secret Key"
-            className="w-full bg-secondary/50 border border-border rounded-xl px-4 py-3 text-center focus:ring-2 focus:ring-primary focus:outline-none"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button
-            onClick={() => {
-              if (password === 'admin123') setIsAuthenticated(true);
-              else alert('Incorrect Secret Key');
-            }}
-            className="w-full bg-primary text-white py-3 rounded-lg font-bold hover:scale-105 transition-transform"
-          >
-            Enter Studio
-          </button>
+        <div className="mb-8 flex flex-col items-center">
+          <div className="h-16 w-16 bg-zinc-900 dark:bg-zinc-100 rounded-2xl flex items-center justify-center text-zinc-100 dark:text-zinc-900 mb-6 shadow-2xl rotate-3">
+            <LayoutDashboard className="h-8 w-8" />
+          </div>
+          <h1 className="text-3xl font-heading font-bold italic tracking-tighter">Farsi&apos;s Blogs Studio</h1>
+          <p className="text-muted-foreground text-xs uppercase tracking-widest mt-2">Administrative Portal</p>
         </div>
+        
+        <Card className="border-border shadow-2xl p-8 rounded-[2rem] bg-card">
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <label className="text-[10px] text-muted-foreground uppercase font-black tracking-[0.2em]">Authentication</label>
+              <Input
+                type="password"
+                placeholder="Enter Secret Key"
+                className="h-12 border-border bg-muted/30 rounded-xl text-center focus-visible:ring-primary"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && (password === 'admin123' ? setIsAuthenticated(true) : alert('Incorrect Secret Key'))}
+              />
+            </div>
+            <Button
+              onClick={() => {
+                if (password === 'admin123') setIsAuthenticated(true);
+                else alert('Incorrect Secret Key');
+              }}
+              className="w-full h-12 rounded-xl font-bold bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 hover:scale-[1.02] transition-transform shadow-xl"
+            >
+              Access Dashboard
+            </Button>
+          </div>
+        </Card>
       </div>
     );
   }
 
   return (
-    <div className="max-w-6xl mx-auto py-10">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
-        <div>
-          <h1 className="text-4xl font-bold font-heading flex items-center gap-3">
-            <LayoutDashboard className="h-8 w-8 text-primary" />
-            Content Studio
+    <div className="max-w-6xl mx-auto py-10 space-y-10">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div className="space-y-2">
+          <h1 className="text-4xl font-bold font-heading flex items-center gap-3 tracking-tighter">
+            Studio<span className="text-primary italic">.</span>
           </h1>
-          <p className="text-muted-foreground mt-2">Manage your educational posts and track your reach.</p>
+          <p className="text-muted-foreground text-sm font-medium">Manage your educational platform and track content performance.</p>
         </div>
-        <Link
-          href="/studio/new"
-          className="flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-xl font-bold hover:opacity-90 transition-all shadow-lg"
+        <Link 
+          href="/studio/new" 
+          className={cn(buttonVariants({ variant: "default" }), "rounded-xl h-12 px-6 font-bold shadow-lg gap-2")}
         >
           <Plus className="h-5 w-5" />
-          Create New Post
+          Create New Story
         </Link>
       </div>
 
+      <Separator className="bg-border" />
+
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-        <div className="bg-card border border-border p-6 rounded-2xl shadow-sm">
-          <p className="text-sm text-muted-foreground font-medium uppercase tracking-wider">Total Posts</p>
-          <p className="text-4xl font-bold mt-2">{posts.length}</p>
-        </div>
-        <div className="bg-card border border-border p-6 rounded-2xl shadow-sm">
-          <p className="text-sm text-muted-foreground font-medium uppercase tracking-wider">Categories</p>
-          <p className="text-4xl font-bold mt-2">3</p>
-        </div>
-        <div className="bg-card border border-border p-6 rounded-2xl shadow-sm">
-          <p className="text-sm text-muted-foreground font-medium uppercase tracking-wider">Sync Status</p>
-          <p className="text-sm font-bold mt-2 text-primary flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-primary animate-pulse"></span>
-            Server Persistent (JSON)
-          </p>
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card className="rounded-2xl border-border bg-card shadow-sm group hover:border-primary transition-colors">
+          <CardHeader className="pb-2">
+            <CardDescription className="text-[10px] uppercase font-bold tracking-widest">Total Stories</CardDescription>
+            <CardTitle className="text-4xl font-heading font-black">{posts.length}</CardTitle>
+          </CardHeader>
+        </Card>
+        <Card className="rounded-2xl border-border bg-card shadow-sm">
+          <CardHeader className="pb-2">
+            <CardDescription className="text-[10px] uppercase font-bold tracking-widest">Disciplines</CardDescription>
+            <CardTitle className="text-4xl font-heading font-black">3</CardTitle>
+          </CardHeader>
+        </Card>
+        <Card className="rounded-2xl border-border bg-card shadow-sm bg-zinc-900 dark:bg-zinc-100 text-zinc-100 dark:text-zinc-900">
+          <CardHeader className="pb-2">
+            <CardDescription className="text-[10px] uppercase font-bold tracking-widest text-zinc-400 dark:text-zinc-500">Sync Status</CardDescription>
+            <div className="flex items-center gap-2 mt-1">
+              <span className="h-2 w-2 rounded-full bg-primary animate-pulse"></span>
+              <span className="text-sm font-black uppercase tracking-tighter">Server Persistent</span>
+            </div>
+          </CardHeader>
+        </Card>
       </div>
 
       {/* Posts Table */}
-      <div className="bg-card border border-border rounded-2xl overflow-hidden">
+      <Card className="rounded-2xl border-border bg-card overflow-hidden shadow-sm">
+        <div className="p-4 border-b border-border bg-muted/20 flex justify-between items-center">
+          <div className="relative w-64">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input placeholder="Search stories..." className="pl-9 h-9 bg-background border-border text-xs rounded-lg" />
+          </div>
+          <Button variant="outline" size="sm" className="gap-2 h-9 rounded-lg font-bold text-xs uppercase tracking-widest">
+            <Filter className="h-3 w-3" />
+            Filters
+          </Button>
+        </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-muted/50 text-muted-foreground uppercase text-xs font-bold tracking-widest">
+              <tr className="bg-muted/30 text-muted-foreground uppercase text-[10px] font-black tracking-[0.2em]">
                 <th className="px-6 py-4">Title</th>
                 <th className="px-6 py-4">Category</th>
-                <th className="px-6 py-4">Date</th>
-                <th className="px-6 py-4 text-right">Actions</th>
+                <th className="px-6 py-4">Status</th>
+                <th className="px-6 py-4 text-right">Settings</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border">
+            <tbody className="divide-y divide-border/50">
               {posts.map((post) => (
-                <tr key={post.id} className="hover:bg-muted/30 transition-colors group">
-                  <td className="px-6 py-4">
-                    <div className="font-bold text-card-foreground line-clamp-1">{post.title}</div>
+                <tr key={post.id} className="hover:bg-muted/10 transition-colors group">
+                  <td className="px-6 py-5">
+                    <div className="font-bold text-foreground text-sm line-clamp-1">{post.title}</div>
+                    <div className="text-[10px] text-muted-foreground mt-1 font-medium">{post.date}</div>
                   </td>
-                  <td className="px-6 py-4">
-                    <span className="bg-primary/10 text-primary px-2 py-1 rounded-md text-xs font-bold uppercase">
+                  <td className="px-6 py-5">
+                    <Badge variant="secondary" className="px-3 py-0.5 rounded-full text-[9px] font-black uppercase tracking-widest bg-muted border-border">
                       {post.category}
-                    </span>
+                    </Badge>
                   </td>
-                  <td className="px-6 py-4 text-sm text-muted-foreground">
-                    {post.date}
+                  <td className="px-6 py-5">
+                    {post.featured ? (
+                      <Badge className="bg-primary/20 text-primary border-none text-[9px] font-bold uppercase tracking-widest">Featured</Badge>
+                    ) : (
+                      <Badge variant="outline" className="text-[9px] font-bold uppercase tracking-widest opacity-40">Standard</Badge>
+                    )}
                   </td>
-                  <td className="px-6 py-4 text-right">
-                    <div className="flex items-center justify-end gap-2">
-                      <Link
-                        href={`/post/${post.id}`}
+                  <td className="px-6 py-5 text-right">
+                    <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Link 
+                        href={`/studio/edit/${post.id}`}
+                        className={cn(buttonVariants({ variant: "ghost", size: "icon" }), "h-9 w-9 rounded-lg hover:text-primary")}
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Link>
+                      <Link 
+                        href={`/post/${post.id}`} 
                         target="_blank"
-                        className="p-2 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg transition-all"
-                        title="View Live"
+                        className={cn(buttonVariants({ variant: "ghost", size: "icon" }), "h-9 w-9 rounded-lg hover:text-primary")}
                       >
                         <ExternalLink className="h-4 w-4" />
                       </Link>
-                      <button
-                        onClick={() => deletePost(post.id)}
-                        className="p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-lg transition-all"
-                        title="Delete"
-                      >
+                      <Button variant="ghost" size="icon" className="h-9 w-9 rounded-lg hover:text-destructive" onClick={() => deletePost(post.id)}>
                         <Trash2 className="h-4 w-4" />
-                      </button>
+                      </Button>
                     </div>
                   </td>
                 </tr>
               ))}
               {posts.length === 0 && (
                 <tr>
-                  <td colSpan={4} className="px-6 py-12 text-center text-muted-foreground italic">
-                    No posts found. Time to create your first masterpiece!
+                  <td colSpan={4} className="px-6 py-20 text-center space-y-4">
+                    <div className="text-xl font-heading font-bold text-muted-foreground/50 italic">The Archive is Empty.</div>
+                    <Button asChild variant="outline" className="rounded-full">
+                      <Link href="/studio/new">Begin Writing</Link>
+                    </Button>
                   </td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
-      </div>
+      </Card>
     </div>
   );
 }

@@ -6,14 +6,16 @@ import BlogSidebar from '@/components/BlogSidebar';
 import AuthorBox from '@/components/AuthorBox';
 import RelatedPosts from '@/components/RelatedPosts';
 import CommentsSection from '@/components/Comments';
-import { Calendar, Clock, Mail, Facebook, Twitter, Instagram } from 'lucide-react';
+import { Calendar, Clock, Mail, Facebook, Twitter, Instagram, ArrowRight } from 'lucide-react';
 import { FacebookIcon, TwitterIcon, InstagramIcon } from '@/components/Icons';
 import ReactMarkdown from 'react-markdown';
 import React from 'react';
+import Link from 'next/link';
 
-export default function PostPage({ params }: { params: { id: string } }) {
+export default function PostPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = React.use(params);
   const { posts } = usePosts();
-  const post = posts.find((p) => p.id === params.id);
+  const post = posts.find((p) => p.id === id);
 
   if (!post) {
     if (posts.length > 0) notFound();
@@ -106,11 +108,29 @@ export default function PostPage({ params }: { params: { id: string } }) {
             {/* Author Section */}
             <AuthorBox author={post.author} />
 
+            {/* Next Post Navigation */}
+            {posts.findIndex(p => p.id === post.id) < posts.length - 1 && (
+              <div className="pt-20 border-t border-border/50">
+                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground mb-4 text-center">Next Story</p>
+                <Link 
+                  href={`/post/${posts[posts.findIndex(p => p.id === post.id) + 1].id}`}
+                  className="group block text-center space-y-4"
+                >
+                  <h2 className="text-3xl md:text-5xl font-heading font-bold group-hover:text-primary transition-colors leading-tight max-w-2xl mx-auto">
+                    {posts[posts.findIndex(p => p.id === post.id) + 1].title}
+                  </h2>
+                  <div className="flex items-center justify-center gap-2 text-primary font-black uppercase tracking-widest text-[10px]">
+                    Read the story <ArrowRight className="h-4 w-4 group-hover:translate-x-2 transition-transform" />
+                  </div>
+                </Link>
+              </div>
+            )}
+
             {/* Related Posts */}
-            <RelatedPosts currentCategoryId={post.category} />
+            <RelatedPosts currentCategoryId={post.category} currentPostId={post.id} />
 
             {/* Comments Area */}
-            <CommentsSection />
+            <CommentsSection postId={post.id} />
 
           </article>
         </div>
