@@ -5,13 +5,13 @@ import { usePosts } from '@/context/PostContext';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, Save, X, ImagePlus, Loader2 } from 'lucide-react';
 import Link from 'next/link';
-import { Button, buttonVariants } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
-import { cn } from '@/lib/utils';
+import { Button, buttonVariants } from '../../../../components/ui/button';
+import { Card, CardHeader, CardTitle, CardDescription } from '../../../../components/ui/card';
+import { Input } from '../../../../components/ui/input';
+import { Textarea } from '../../../../components/ui/textarea';
+import { Label } from '../../../../components/ui/label';
+import { Separator } from '../../../../components/ui/separator';
+import { cn } from '../../../../lib/utils';
 
 export default function EditPostPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
