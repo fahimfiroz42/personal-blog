@@ -4,12 +4,13 @@ import React, { useState } from 'react';
 import { usePosts } from '@/context/PostContext';
 import { Plus, Trash2, Edit, ExternalLink, LayoutDashboard, Search, Filter } from 'lucide-react';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { cn } from '@/lib/utils';
 
 export default function StudioDashboard() {
   const { posts, deletePost, isLoading } = usePosts();
