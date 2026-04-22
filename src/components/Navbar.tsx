@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Search, Sun, Moon, Rss, Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { FacebookIcon, GithubIcon, LinkedInIcon, WhatsappIcon } from '@/components/Icons';
+import { FacebookIcon, GithubIcon, LinkedInIcon, WhatsappIcon, InstagramIcon } from '@/components/Icons';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
