@@ -54,7 +54,7 @@ export default function StudioDashboard() {
             <h1 className="text-4xl font-heading font-black italic tracking-tighter text-foreground">Archive Access</h1>
             <p className="text-muted-foreground text-[10px] uppercase font-black tracking-[0.4em] mt-4">Authorized Personnel Only</p>
           </div>
-          
+
           <Card className="border-border shadow-2xl p-10 rounded-[3rem] bg-card/50 backdrop-blur-xl relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-3xl -z-10" />
             <div className="space-y-8 relative z-10">
@@ -77,11 +77,11 @@ export default function StudioDashboard() {
               </Button>
             </div>
           </Card>
-          
+
           <div className="mt-12 text-center">
-             <Link href="/" className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground hover:text-primary transition-colors flex items-center justify-center gap-2">
-               ← Return to Public Journal
-             </Link>
+            <Link href="/" className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground hover:text-primary transition-colors flex items-center justify-center gap-2">
+              ← Return to Public Journal
+            </Link>
           </div>
         </div>
       </div>
@@ -98,14 +98,24 @@ export default function StudioDashboard() {
           <p className="text-muted-foreground text-sm font-medium">Manage your educational platform and track content performance.</p>
         </div>
         <div className="flex items-center gap-3">
-          <Link 
-            href="/studio/settings" 
+          <Button 
+            variant="ghost" 
+            className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-destructive h-12"
+            onClick={() => {
+              localStorage.removeItem('studio_auth');
+              window.location.reload();
+            }}
+          >
+            Logout
+          </Button>
+          <Link
+            href="/studio/settings"
             className={cn(buttonVariants({ variant: "outline" }), "rounded-xl h-12 px-6 font-bold border-border hover:bg-muted")}
           >
             Settings
           </Link>
-          <Link 
-            href="/studio/new" 
+          <Link
+            href="/studio/new"
             className={cn(buttonVariants({ variant: "default" }), "rounded-xl h-12 px-6 font-bold shadow-lg gap-2")}
           >
             <Plus className="h-5 w-5" />
@@ -184,14 +194,14 @@ export default function StudioDashboard() {
                   </td>
                   <td className="px-6 py-5 text-right">
                     <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Link 
+                      <Link
                         href={`/studio/edit/${post.id}`}
                         className={cn(buttonVariants({ variant: "ghost", size: "icon" }), "h-9 w-9 rounded-lg hover:text-primary")}
                       >
                         <Edit className="h-4 w-4" />
                       </Link>
-                      <Link 
-                        href={`/post/${post.id}`} 
+                      <Link
+                        href={`/post/${post.id}`}
                         target="_blank"
                         className={cn(buttonVariants({ variant: "ghost", size: "icon" }), "h-9 w-9 rounded-lg hover:text-primary")}
                       >
@@ -208,7 +218,7 @@ export default function StudioDashboard() {
                 <tr>
                   <td colSpan={4} className="px-6 py-20 text-center space-y-4">
                     <div className="text-xl font-heading font-bold text-muted-foreground/50 italic">The Archive is Empty.</div>
-                    <Link 
+                    <Link
                       href="/studio/new"
                       className={cn(buttonVariants({ variant: "outline" }), "rounded-full")}
                     >

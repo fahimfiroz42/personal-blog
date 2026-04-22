@@ -16,7 +16,7 @@ export default function StudioSettings() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
-  
+
   const [settings, setSettings] = useState({
     tag: '',
     title: '',
@@ -74,15 +74,15 @@ export default function StudioSettings() {
   return (
     <div className="max-w-4xl mx-auto py-10 space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex items-center justify-between">
-        <Link 
-          href="/studio" 
+        <Link
+          href="/studio"
           className={cn(buttonVariants({ variant: "ghost" }), "gap-2 text-muted-foreground hover:text-foreground")}
         >
           <ChevronLeft className="h-4 w-4" />
           Archive Dashboard
         </Link>
-        <Button 
-          onClick={handleSubmit} 
+        <Button
+          onClick={handleSubmit}
           disabled={isSaving}
           className="rounded-xl bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 px-8 font-bold shadow-xl gap-2 h-10 hover:scale-[1.02] transition-transform"
         >
@@ -96,7 +96,7 @@ export default function StudioSettings() {
           <CardTitle className="text-4xl font-heading font-bold tracking-tighter italic">Sidebar Global Settings</CardTitle>
           <CardDescription className="text-sm font-medium">Manage your collaboration widget and global promotional elements.</CardDescription>
         </CardHeader>
-        
+
         <form onSubmit={handleSubmit} className="space-y-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-6">
@@ -104,9 +104,9 @@ export default function StudioSettings() {
                 <Label className="text-[10px] uppercase font-black tracking-[0.2em] text-muted-foreground ml-1">Widget Tag</Label>
                 <div className="relative">
                   <LayoutGrid className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input 
+                  <Input
                     value={settings.tag}
-                    onChange={(e) => setSettings({...settings, tag: e.target.value})}
+                    onChange={(e) => setSettings({ ...settings, tag: e.target.value })}
                     placeholder="e.g. Partner Story"
                     className="pl-10 bg-muted/20 border-border rounded-xl h-12"
                   />
@@ -117,9 +117,9 @@ export default function StudioSettings() {
                 <Label className="text-[10px] uppercase font-black tracking-[0.2em] text-muted-foreground ml-1">Main Heading</Label>
                 <div className="relative">
                   <Type className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input 
+                  <Input
                     value={settings.title}
-                    onChange={(e) => setSettings({...settings, title: e.target.value})}
+                    onChange={(e) => setSettings({ ...settings, title: e.target.value })}
                     placeholder="e.g. Your Brand could be showcased here."
                     className="pl-10 bg-muted/20 border-border rounded-xl h-12"
                   />
@@ -132,9 +132,9 @@ export default function StudioSettings() {
                 <Label className="text-[10px] uppercase font-black tracking-[0.2em] text-muted-foreground ml-1">Button Text</Label>
                 <div className="relative">
                   <Type className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input 
+                  <Input
                     value={settings.buttonText}
-                    onChange={(e) => setSettings({...settings, buttonText: e.target.value})}
+                    onChange={(e) => setSettings({ ...settings, buttonText: e.target.value })}
                     placeholder="e.g. Collaborate"
                     className="pl-10 bg-muted/20 border-border rounded-xl h-12"
                   />
@@ -145,9 +145,9 @@ export default function StudioSettings() {
                 <Label className="text-[10px] uppercase font-black tracking-[0.2em] text-muted-foreground ml-1">Target Link (URL)</Label>
                 <div className="relative">
                   <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input 
+                  <Input
                     value={settings.link}
-                    onChange={(e) => setSettings({...settings, link: e.target.value})}
+                    onChange={(e) => setSettings({ ...settings, link: e.target.value })}
                     placeholder="https://..."
                     className="pl-10 bg-muted/20 border-border rounded-xl h-12"
                   />
@@ -162,15 +162,15 @@ export default function StudioSettings() {
             <Label className="text-[10px] uppercase font-black tracking-[0.2em] text-muted-foreground ml-1">Background Image URL</Label>
             <div className="relative">
               <ImageIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input 
+              <Input
                 value={settings.imageUrl}
-                onChange={(e) => setSettings({...settings, imageUrl: e.target.value})}
+                onChange={(e) => setSettings({ ...settings, imageUrl: e.target.value })}
                 placeholder="https://images.unsplash.com/..."
                 className="pl-10 bg-muted/20 border-border rounded-xl h-12"
               />
             </div>
             <div className="aspect-[21/9] rounded-2xl overflow-hidden border border-border bg-muted">
-               <img src={settings.imageUrl} alt="Preview" className="w-full h-full object-cover opacity-60" />
+              <img src={settings.imageUrl} alt="Preview" className="w-full h-full object-cover opacity-60" />
             </div>
           </div>
         </form>
