@@ -35,7 +35,7 @@ export default function StudioSettings() {
     setIsAuthenticated(true);
 
     // Fetch settings
-    fetch('http://localhost:5000/api/settings/ad')
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/settings/ad`)
       .then(res => res.json())
       .then(data => {
         setSettings(data);
@@ -52,7 +52,7 @@ export default function StudioSettings() {
     setIsSaving(true);
 
     try {
-      const res = await fetch('http://localhost:5000/api/settings/ad', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/settings/ad`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(settings)

@@ -116,8 +116,6 @@ export default function Footer() {
           <span>&copy; 2026</span>
           <Separator orientation="vertical" className="h-3 bg-border" />
           <span>All Rights Reserved</span>
-          <Separator orientation="vertical" className="h-3 bg-border" />
-          <Link href="/studio" className="hover:text-primary hover:opacity-100 transition-all opacity-40">System Access</Link>
         </div>
       </div>
     </footer>

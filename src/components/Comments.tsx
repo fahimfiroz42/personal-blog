@@ -26,7 +26,7 @@ export default function CommentsSection({ postId }: { postId: string }) {
     fetchComments();
   }, [postId]);
 
-  const API_URL = 'http://localhost:5000/api/comments';
+  const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/comments`;
 
   const fetchComments = async () => {
     try {

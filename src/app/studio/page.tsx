@@ -45,36 +45,45 @@ export default function StudioDashboard() {
 
   if (!isAuthenticated) {
     return (
-      <div className="max-w-md mx-auto py-32 px-4 text-center">
-        <div className="mb-8 flex flex-col items-center">
-          <div className="h-16 w-16 bg-zinc-900 dark:bg-zinc-100 rounded-2xl flex items-center justify-center text-zinc-100 dark:text-zinc-900 mb-6 shadow-2xl rotate-3">
-            <LayoutDashboard className="h-8 w-8" />
-          </div>
-          <h1 className="text-3xl font-heading font-bold italic tracking-tighter">Farsi&apos;s Blogs Studio</h1>
-          <p className="text-muted-foreground text-xs uppercase tracking-widest mt-2">Administrative Portal</p>
-        </div>
-        
-        <Card className="border-border shadow-2xl p-8 rounded-[2rem] bg-card">
-          <div className="space-y-6">
-            <div className="space-y-2">
-              <label className="text-[10px] text-muted-foreground uppercase font-black tracking-[0.2em]">Authentication</label>
-              <Input
-                type="password"
-                placeholder="Enter Secret Key"
-                className="h-12 border-border bg-muted/30 rounded-xl text-center focus-visible:ring-primary"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
-              />
+      <div className="min-h-[80vh] flex items-center justify-center px-4">
+        <div className="max-w-md w-full animate-in fade-in zoom-in duration-500">
+          <div className="mb-12 flex flex-col items-center">
+            <div className="h-20 w-20 bg-zinc-900 dark:bg-zinc-100 rounded-[2rem] flex items-center justify-center text-zinc-100 dark:text-zinc-900 mb-6 shadow-2xl rotate-6 hover:rotate-0 transition-transform duration-500">
+              <LayoutDashboard className="h-10 w-10" />
             </div>
-            <Button
-              onClick={handleLogin}
-              className="w-full h-12 rounded-xl font-bold bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 hover:scale-[1.02] transition-transform shadow-xl"
-            >
-              Access Dashboard
-            </Button>
+            <h1 className="text-4xl font-heading font-black italic tracking-tighter text-foreground">Archive Access</h1>
+            <p className="text-muted-foreground text-[10px] uppercase font-black tracking-[0.4em] mt-4">Authorized Personnel Only</p>
           </div>
-        </Card>
+          
+          <Card className="border-border shadow-2xl p-10 rounded-[3rem] bg-card/50 backdrop-blur-xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-3xl -z-10" />
+            <div className="space-y-8 relative z-10">
+              <div className="space-y-3">
+                <label className="text-[10px] text-muted-foreground uppercase font-black tracking-[0.2em] ml-1">Archive Secret Key</label>
+                <Input
+                  type="password"
+                  placeholder="••••••••"
+                  className="h-14 border-border bg-background rounded-2xl text-center text-xl tracking-[0.5em] focus-visible:ring-primary shadow-inner"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
+                />
+              </div>
+              <Button
+                onClick={handleLogin}
+                className="w-full h-14 rounded-2xl font-black uppercase tracking-widest text-[11px] bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-2xl shadow-zinc-500/20"
+              >
+                Unlock Archive
+              </Button>
+            </div>
+          </Card>
+          
+          <div className="mt-12 text-center">
+             <Link href="/" className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground hover:text-primary transition-colors flex items-center justify-center gap-2">
+               ← Return to Public Journal
+             </Link>
+          </div>
+        </div>
       </div>
     );
   }

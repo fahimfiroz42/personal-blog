@@ -27,7 +27,7 @@ export default function BlogSidebar() {
   const categories = ['Science', 'German', 'IELTS', 'Education', 'Technology'];
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/settings/ad')
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/settings/ad`)
       .then(res => res.json())
       .then(data => setAdSettings(data))
       .catch(err => console.error('Failed to load ad settings'));

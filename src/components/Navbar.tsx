@@ -128,7 +128,6 @@ export default function Navbar() {
           <nav className="hidden md:block w-full mt-10 border-t border-border/20">
             <ul className="flex items-center justify-center gap-x-12 py-5 text-[11px] font-black uppercase tracking-[0.3em] text-muted-foreground/80">
               <li><Link href="/" className="hover:text-primary transition-all hover:tracking-[0.4em]">Home</Link></li>
-              <li><Link href="/studio" className="hover:text-primary transition-all hover:tracking-[0.4em]">Studio</Link></li>
             </ul>
           </nav>
         ) : (
@@ -136,7 +135,6 @@ export default function Navbar() {
             <nav>
               <ul className="flex items-center gap-x-8 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/70">
                 <li><Link href="/" className="hover:text-primary transition-colors">Home</Link></li>
-                <li><Link href="/studio" className="hover:text-primary transition-colors">Studio</Link></li>
               </ul>
             </nav>
             <div className="flex items-center gap-4 border-l border-border/30 pl-8">
@@ -158,13 +156,6 @@ export default function Navbar() {
               className="text-2xl font-heading font-black italic text-foreground hover:text-primary transition-colors"
             >
               Home
-            </Link>
-            <Link 
-              href="/studio" 
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="text-2xl font-heading font-black italic text-foreground hover:text-primary transition-colors"
-            >
-              Studio
             </Link>
             <Separator className="bg-border/50" />
             <div className="flex items-center justify-between">

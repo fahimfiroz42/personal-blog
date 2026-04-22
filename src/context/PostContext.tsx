@@ -17,7 +17,7 @@ export function PostProvider({ children }: { children: React.ReactNode }) {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const API_URL = 'http://localhost:5000/api/posts';
+  const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/posts`;
 
   const fetchPosts = async () => {
     try {
