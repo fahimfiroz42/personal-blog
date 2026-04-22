@@ -12,9 +12,9 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const lora = Lora({ subsets: ['latin'], variable: '--font-lora' });
 
 export const metadata: Metadata = {
-  title: "Farsi's Blogs | Science, German & IELTS",
+  title: "FARSI'S BLOGS",
   description: 'A premium minimalist blog for serious learners and educators.',
-  keywords: ['Science Education', 'Learn German', 'IELTS Prep', 'Educational Blog'],
+  keywords: ['Educational Blog', 'Farsi Blogs', 'Journal'],
 };
 
 export default function RootLayout({
@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={cn(inter.variable, lora.variable, "font-sans", geist.variable)}>
+    <html lang="en" className={cn(inter.variable, lora.variable, "font-sans", geist.variable)} suppressHydrationWarning>
       <body className="min-h-screen bg-[#fcfcfc] dark:bg-[#121212] font-sans antialiased text-[#1a1a1a] dark:text-gray-200 transition-colors duration-300">
         <PostProvider>
           <Navbar />

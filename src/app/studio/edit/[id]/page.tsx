@@ -12,6 +12,27 @@ import { Textarea } from '../../../../components/ui/textarea';
 import { Label } from '../../../../components/ui/label';
 import { Separator } from '../../../../components/ui/separator';
 import { cn } from '../../../../lib/utils';
+import dynamic from 'next/dynamic';
+import 'react-quill-new/dist/quill.snow.css';
+
+const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
+
+const modules = {
+  toolbar: [
+    [{ header: [1, 2, 3, false] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    ['link', 'code-block'],
+    ['clean'],
+  ],
+};
+
+const formats = [
+  'header',
+  'bold', 'italic', 'underline', 'strike',
+  'list',
+  'link', 'code-block',
+];
 
 export default function EditPostPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
@@ -201,13 +222,47 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
 
             <div className="space-y-4">
               <Label className="text-[10px] uppercase font-black tracking-[0.2em] text-muted-foreground ml-1">Narrative Content</Label>
-              <Textarea
-                required
-                rows={15}
-                className="bg-muted/20 border-border rounded-[2rem] px-8 py-8 font-serif text-lg leading-relaxed focus-visible:ring-primary min-h-[400px]"
-                value={formData.content}
-                onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-              />
+              <div className="bg-muted/20 border-border rounded-[2rem] overflow-hidden min-h-[400px]">
+                <ReactQuill
+                  theme="snow"
+                  value={formData.content}
+                  onChange={(content) => setFormData({ ...formData, content })}
+                  modules={modules}
+                  formats={formats}
+                  className="h-full font-serif text-lg quill-editor"
+                  placeholder="Refine your story here..."
+                />
+              </div>
+              <style jsx global>{`
+                .quill-editor .ql-toolbar {
+                  border: none !important;
+                  background: rgba(0,0,0,0.02);
+                  padding: 1.5rem !important;
+                  border-bottom: 1px solid rgba(0,0,0,0.1) !important;
+                }
+                .quill-editor .ql-container {
+                  border: none !important;
+                  font-family: inherit !important;
+                  font-size: 1.125rem !important;
+                }
+                .quill-editor .ql-editor {
+                  padding: 2rem !important;
+                  min-h-[350px];
+                }
+                .dark .quill-editor .ql-toolbar {
+                  background: rgba(255,255,255,0.02);
+                  border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+                }
+                .dark .ql-snow .ql-stroke {
+                  stroke: #fff !important;
+                }
+                .dark .ql-snow .ql-fill {
+                  fill: #fff !important;
+                }
+                .dark .ql-snow .ql-picker {
+                  color: #fff !important;
+                }
+              `}</style>
             </div>
           </div>
           

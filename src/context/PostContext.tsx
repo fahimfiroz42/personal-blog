@@ -17,13 +17,21 @@ export function PostProvider({ children }: { children: React.ReactNode }) {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const API_URL = 'http://localhost:5000/api/posts';
+
   const fetchPosts = async () => {
     try {
-      const res = await fetch('/api/posts');
+      const res = await fetch(API_URL);
       const data = await res.json();
-      setPosts(data);
+      if (Array.isArray(data)) {
+        setPosts(data);
+      } else {
+        console.error('API did not return an array:', data);
+        setPosts([]);
+      }
     } catch (error) {
       console.error('Failed to fetch posts:', error);
+      setPosts([]);
     } finally {
       setIsLoading(false);
     }
@@ -35,7 +43,7 @@ export function PostProvider({ children }: { children: React.ReactNode }) {
 
   const addPost = async (postData: Omit<BlogPost, 'id' | 'date'>) => {
     try {
-      const res = await fetch('/api/posts', {
+      const res = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(postData),
@@ -50,7 +58,7 @@ export function PostProvider({ children }: { children: React.ReactNode }) {
 
   const deletePost = async (id: string) => {
     try {
-      const res = await fetch(`/api/posts/${id}`, {
+      const res = await fetch(`${API_URL}/${id}`, {
         method: 'DELETE',
       });
       if (res.ok) {
@@ -63,8 +71,8 @@ export function PostProvider({ children }: { children: React.ReactNode }) {
 
   const updatePost = async (id: string, updates: Partial<BlogPost>) => {
     try {
-      const res = await fetch(`/api/posts/${id}`, {
-        method: 'PUT',
+      const res = await fetch(`${API_URL}/${id}`, {
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updates),
       });

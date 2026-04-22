@@ -2,7 +2,7 @@
 
 import { usePosts } from '@/context/PostContext';
 import { Rss, ArrowRight } from 'lucide-react';
-import { FacebookIcon, TwitterIcon, InstagramIcon } from '@/components/Icons';
+import { FacebookIcon, GithubIcon, LinkedInIcon, WhatsappIcon } from '@/components/Icons';
 import Link from 'next/link';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
@@ -29,7 +29,14 @@ export default function Footer() {
             {latestPosts.map((post) => (
               <div key={post.id} className="flex gap-4 group cursor-pointer">
                 <div className="h-14 w-14 bg-muted shrink-0 overflow-hidden rounded-lg">
-                  <img src={`https://i.pravatar.cc/100?u=${post.id}`} alt="" className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <img 
+                    src={post.imageUrl || `https://i.pravatar.cc/100?u=${post.id}`} 
+                    alt="" 
+                    className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = `https://i.pravatar.cc/100?u=${post.id}`;
+                    }}
+                  />
                 </div>
                 <div>
                   <h4 className="text-[13px] font-bold font-heading line-clamp-2 leading-tight group-hover:text-primary transition-colors">
@@ -68,17 +75,17 @@ export default function Footer() {
             <Separator className="flex-1 bg-border/60" />
           </div>
           <div className="grid grid-cols-2 gap-2">
-            <a href="#" className="flex items-center justify-center p-3 bg-card border border-border rounded-xl text-muted-foreground hover:text-primary transition-colors shadow-sm">
+            <a href="https://www.facebook.com/fahim.firozfarsi" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center p-3 bg-card border border-border rounded-xl text-muted-foreground hover:text-primary transition-colors shadow-sm">
               <FacebookIcon className="h-4 w-4" />
             </a>
-            <a href="#" className="flex items-center justify-center p-3 bg-card border border-border rounded-xl text-muted-foreground hover:text-primary transition-colors shadow-sm">
-              <TwitterIcon className="h-4 w-4" />
+            <a href="https://www.linkedin.com/in/fahim-firoz-farsi/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center p-3 bg-card border border-border rounded-xl text-muted-foreground hover:text-primary transition-colors shadow-sm">
+              <LinkedInIcon className="h-4 w-4" />
             </a>
-            <a href="#" className="flex items-center justify-center p-3 bg-card border border-border rounded-xl text-muted-foreground hover:text-primary transition-colors shadow-sm">
-              <InstagramIcon className="h-4 w-4" />
+            <a href="https://github.com/fahimfiroz42" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center p-3 bg-card border border-border rounded-xl text-muted-foreground hover:text-primary transition-colors shadow-sm">
+              <GithubIcon className="h-4 w-4" />
             </a>
-            <a href="#" className="flex items-center justify-center p-3 bg-card border border-border rounded-xl text-muted-foreground hover:text-primary transition-colors shadow-sm">
-              <Rss className="h-4 w-4" />
+            <a href="https://wa.me/8801720885856" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center p-3 bg-card border border-border rounded-xl text-muted-foreground hover:text-primary transition-colors shadow-sm">
+              <WhatsappIcon className="h-4 w-4" />
             </a>
           </div>
         </div>
@@ -93,7 +100,7 @@ export default function Footer() {
           </div>
           <div className="flex flex-col items-center text-center italic">
             <Avatar className="h-20 w-20 mb-6 border-2 border-muted p-1">
-              <AvatarImage src="https://i.pravatar.cc/300?u=admin" />
+              <AvatarImage src="/me.png" />
               <AvatarFallback>A</AvatarFallback>
             </Avatar>
             <p className="text-[13px] text-muted-foreground leading-relaxed max-w-[200px]">
@@ -104,7 +111,7 @@ export default function Footer() {
       </div>
 
       <div className="container mx-auto px-4 mt-24 pt-12 border-t border-border/40 text-center flex flex-col items-center gap-6">
-        <div className="text-4xl font-heading font-bold text-foreground hover:opacity-100 transition-opacity tracking-tighter">Farsi&apos;s Blogs.</div>
+        <div className="text-4xl font-heading font-bold text-foreground hover:opacity-100 transition-opacity tracking-tighter">FARSI&apos;S BLOGS<span className="text-primary italic">.</span></div>
         <div className="flex items-center gap-4 overflow-x-auto max-w-full text-[9px] font-black uppercase tracking-[.2em] text-muted-foreground/60 whitespace-nowrap">
           <span>&copy; 2026</span>
           <Separator orientation="vertical" className="h-3 bg-border" />

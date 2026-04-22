@@ -47,7 +47,11 @@ export default function RelatedPosts({ currentCategoryId, currentPostId }: Relat
           {related.map((post) => (
             <div key={post.id} className="group cursor-pointer space-y-4">
               <div className="aspect-[4/5] bg-muted overflow-hidden rounded-2xl border border-border/50">
-                <img src={`https://i.pravatar.cc/300?u=${post.id}`} alt="" className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                <img 
+                  src={post.imageUrl || `https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?auto=format&fit=crop&q=80&w=300`} 
+                  alt={post.title} 
+                  className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                />
               </div>
               <div className="space-y-2">
                 <Badge variant="secondary" className="text-[8px] font-black uppercase tracking-widest px-2 py-0">#{post.category}</Badge>
@@ -66,7 +70,11 @@ export default function RelatedPosts({ currentCategoryId, currentPostId }: Relat
         {prevPost ? (
           <Link href={`/post/${prevPost.id}`} className="group flex items-center gap-8 py-12 pr-8 border-r border-border/40 hover:bg-muted/30 transition-colors">
             <div className="h-20 w-20 bg-muted shrink-0 rounded-2xl overflow-hidden grayscale group-hover:grayscale-0 transition-all">
-               <img src={`https://i.pravatar.cc/200?u=${prevPost.id}`} alt="" className="h-full w-full object-cover" />
+               <img 
+                 src={prevPost.imageUrl || `https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?auto=format&fit=crop&q=80&w=200`} 
+                 alt="" 
+                 className="h-full w-full object-cover" 
+               />
             </div>
             <div className="flex-1 space-y-1">
               <p className="text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground flex items-center gap-2">
@@ -81,7 +89,11 @@ export default function RelatedPosts({ currentCategoryId, currentPostId }: Relat
         {nextPost ? (
           <Link href={`/post/${nextPost.id}`} className="group flex flex-row-reverse items-center text-right gap-8 py-12 pl-8 hover:bg-muted/30 transition-colors">
             <div className="h-20 w-20 bg-muted shrink-0 rounded-2xl overflow-hidden grayscale group-hover:grayscale-0 transition-all">
-               <img src={`https://i.pravatar.cc/200?u=${nextPost.id}`} alt="" className="h-full w-full object-cover" />
+               <img 
+                 src={nextPost.imageUrl || `https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?auto=format&fit=crop&q=80&w=200`} 
+                 alt="" 
+                 className="h-full w-full object-cover" 
+               />
             </div>
             <div className="flex-1 space-y-1">
               <p className="text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground flex items-center justify-end gap-2">

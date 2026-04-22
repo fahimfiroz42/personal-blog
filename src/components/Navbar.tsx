@@ -1,17 +1,21 @@
 'use client';
 
 import Link from 'next/link';
-import { Search, Sun, Moon, Rss } from 'lucide-react';
+import { Search, Sun, Moon, Rss, Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { FacebookIcon, TwitterIcon, InstagramIcon } from '@/components/Icons';
+import { FacebookIcon, GithubIcon, LinkedInIcon, WhatsappIcon } from '@/components/Icons';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { cn } from '@/lib/utils';
 
 export default function Navbar() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const isDark = document.documentElement.classList.contains('dark');
     setIsDarkMode(isDark);
 
@@ -30,96 +34,149 @@ export default function Navbar() {
   };
 
   return (
-    <header 
-      className={`fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-in-out ${
-        isScrolled 
-          ? 'top-4 w-[95%] lg:w-[1100px] border border-border shadow-2xl rounded-2xl bg-background/90 backdrop-blur-xl px-6 py-2' 
-          : 'top-0 w-full border-b border-border bg-background'
-      }`}
+    <header
+      className={cn(
+        "fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-700 ease-in-out w-full",
+        isScrolled
+          ? 'top-4 w-[95%] lg:w-[1100px] border border-white/20 dark:border-white/10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.2)] rounded-3xl bg-background/70 backdrop-blur-2xl px-6 md:px-8 py-3'
+          : 'top-0 border-b border-border/50 bg-background/50 backdrop-blur-md'
+      )}
     >
-      {/* Top Bar (Hidden on Scroll) */}
-      <div 
-        className={`overflow-hidden transition-all duration-500 ${
-          isScrolled ? 'h-0 opacity-0' : 'h-10 opacity-100 border-b border-border/40'
-        }`}
+      {/* Top Bar (Hidden on Scroll and Mobile) */}
+      <div
+        className={cn(
+          "overflow-hidden transition-all duration-500 hidden md:block",
+          isScrolled ? 'h-0 opacity-0' : 'h-12 opacity-100 border-b border-border/20'
+        )}
       >
-        <div className="container mx-auto px-4 h-full flex items-center justify-between text-muted-foreground">
-          <div className="flex items-center gap-4">
-            <FacebookIcon className="h-3.5 w-3.5 hover:text-foreground cursor-pointer transition-colors" />
-            <TwitterIcon className="h-3.5 w-3.5 hover:text-foreground cursor-pointer transition-colors" />
-            <InstagramIcon className="h-3.5 w-3.5 hover:text-foreground cursor-pointer transition-colors" />
-            <Rss className="h-3.5 w-3.5 hover:text-foreground cursor-pointer transition-colors" />
+        <div className="container mx-auto px-6 h-full flex items-center justify-between text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/60">
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-4">
+              <a href="https://www.facebook.com/fahim.firozfarsi" target="_blank" rel="noopener noreferrer"><FacebookIcon className="h-3.5 w-3.5 hover:text-primary cursor-pointer transition-all hover:scale-110" /></a>
+              <a href="https://github.com/fahimfiroz42" target="_blank" rel="noopener noreferrer"><GithubIcon className="h-3.5 w-3.5 hover:text-primary cursor-pointer transition-all hover:scale-110" /></a>
+              <a href="https://www.linkedin.com/in/fahim-firoz-farsi/" target="_blank" rel="noopener noreferrer"><LinkedInIcon className="h-3.5 w-3.5 hover:text-primary cursor-pointer transition-all hover:scale-110" /></a>
+              <a href="https://wa.me/8801720885856" target="_blank" rel="noopener noreferrer"><WhatsappIcon className="h-3.5 w-3.5 hover:text-primary cursor-pointer transition-all hover:scale-110" /></a>
+            </div>
+            <span className="h-3 w-px bg-border/50" />
+            <div className="flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+              <span>Available for freelance</span>
+            </div>
           </div>
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" onClick={toggleDarkMode} className="h-8 w-8 text-muted-foreground hover:text-foreground">
-              {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            </Button>
-            <Search className="h-3.5 w-3.5 hover:text-foreground cursor-pointer transition-colors" />
+          <div className="flex items-center gap-6">
+            <Link href="/rss" className="flex items-center gap-2 hover:text-primary transition-colors">
+              <Rss className="h-3 w-3" />
+              <span>RSS Feed</span>
+            </Link>
+            <div className="h-3 w-px bg-border/50" />
+            <button onClick={toggleDarkMode} className="flex items-center gap-2 hover:text-primary transition-colors uppercase">
+              {mounted && (isDarkMode ? <Sun className="h-3 w-3" /> : <Moon className="h-3 w-3" />)}
+              <span>{mounted ? (isDarkMode ? 'Light' : 'Dark') : 'Theme'}</span>
+            </button>
           </div>
         </div>
       </div>
 
       {/* Main Bar (Morphs on Scroll) */}
-      <div 
-        className={`flex items-center justify-between transition-all duration-500 ${
-          isScrolled ? 'h-12' : 'flex-col py-8'
-        }`}
+      <div
+        className={cn(
+          "flex items-center justify-between transition-all duration-700 px-6",
+          isScrolled ? 'h-12' : 'flex-col py-6 md:py-10'
+        )}
       >
         {/* Branding */}
-        <div className={`transition-all duration-500 ${isScrolled ? 'scale-75' : 'flex flex-col items-center'}`}>
-          <Link 
-            href="/" 
-            className={`font-heading font-bold text-foreground hover:opacity-80 transition-opacity tracking-tighter ${
-              isScrolled ? 'text-2xl' : 'text-5xl'
-            }`}
+        <div className={cn(
+          "transition-all duration-700 w-full md:w-auto flex items-center justify-between md:justify-center",
+          isScrolled ? 'scale-90 origin-left' : 'flex-col items-center'
+        )}>
+          <Link
+            href="/"
+            className={cn(
+              "font-heading font-black text-foreground hover:opacity-80 transition-all tracking-tighter",
+              isScrolled ? 'text-xl md:text-2xl' : 'text-3xl md:text-7xl'
+            )}
           >
-            Farsi&apos;s Blogs<span className="text-primary tracking-normal">.</span>
+            FARSI&apos;S BLOGS<span className="text-primary italic">.</span>
           </Link>
-          
+
+          {/* Mobile Menu Toggle */}
+          <div className="flex md:hidden items-center gap-4">
+            <button onClick={toggleDarkMode} className="p-2 hover:text-primary transition-colors">
+              {mounted && (isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />)}
+            </button>
+            <button 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 text-foreground"
+            >
+              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
+
           {!isScrolled && (
-            <div className="flex items-center gap-3 mt-4 animate-in fade-in duration-700">
-              <Separator className="w-8 bg-border" />
-              <p className="text-[10px] uppercase tracking-[0.4em] font-black text-muted-foreground/60">
-                Digital Archive
+            <div className="hidden md:flex items-center gap-4 mt-6 animate-in fade-in slide-in-from-top-2 duration-1000">
+              <div className="h-px w-10 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+              <p className="text-[11px] uppercase tracking-[0.6em] font-black text-muted-foreground/40">
+                The Digital Archive
               </p>
-              <Separator className="w-8 bg-border" />
+              <div className="h-px w-10 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
             </div>
           )}
         </div>
 
-        {/* Navigation Content (Row on scroll, list below on flat) */}
+        {/* Desktop Navigation */}
         {!isScrolled ? (
-          <nav className="w-full mt-6 border-t border-border/40 overflow-x-auto scrollbar-hide">
-            <ul className="flex items-center justify-center gap-x-8 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
-              <li><Link href="/" className="hover:text-foreground transition-colors">Home</Link></li>
-              <li className="h-3 w-px bg-border"></li>
-              <li><Link href="/category/science" className="hover:text-foreground transition-colors">Science</Link></li>
-              <li><Link href="/category/german" className="hover:text-foreground transition-colors">German</Link></li>
-              <li><Link href="/category/ielts" className="hover:text-foreground transition-colors">IELTS Prep</Link></li>
-              <li className="h-3 w-px bg-border"></li>
-              <li><Link href="/studio" className="hover:text-foreground transition-colors">Studio</Link></li>
+          <nav className="hidden md:block w-full mt-10 border-t border-border/20">
+            <ul className="flex items-center justify-center gap-x-12 py-5 text-[11px] font-black uppercase tracking-[0.3em] text-muted-foreground/80">
+              <li><Link href="/" className="hover:text-primary transition-all hover:tracking-[0.4em]">Home</Link></li>
+              <li><Link href="/studio" className="hover:text-primary transition-all hover:tracking-[0.4em]">Studio</Link></li>
             </ul>
           </nav>
         ) : (
-          /* Scrolled Row Navigation */
-          <div className="flex items-center gap-8 animate-in slide-in-from-right-4 duration-500">
+          <div className="hidden md:flex items-center gap-10 animate-in slide-in-from-right-8 duration-700">
             <nav>
-              <ul className="flex items-center gap-x-6 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-                <li><Link href="/category/science" className="hover:text-primary transition-colors">Science</Link></li>
-                <li><Link href="/category/german" className="hover:text-primary transition-colors">German</Link></li>
-                <li><Link href="/category/ielts" className="hover:text-primary transition-colors">IELTS</Link></li>
-                <li><Link href="/studio" className="hover:text-primary transition-colors font-black">Studio</Link></li>
+              <ul className="flex items-center gap-x-8 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/70">
+                <li><Link href="/" className="hover:text-primary transition-colors">Home</Link></li>
+                <li><Link href="/studio" className="hover:text-primary transition-colors">Studio</Link></li>
               </ul>
             </nav>
-            <div className="flex items-center gap-2 border-l border-border pl-6">
-               <Button variant="ghost" size="icon" onClick={toggleDarkMode} className="h-8 w-8 text-muted-foreground hover:text-foreground">
-                {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-              </Button>
-              <Search className="h-4 w-4 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
+            <div className="flex items-center gap-4 border-l border-border/30 pl-8">
+              <Link href="/" className="h-10 w-10 bg-primary text-white rounded-full flex items-center justify-center hover:scale-110 transition-all shadow-xl shadow-primary/20">
+                <Search className="h-4 w-4" />
+              </Link>
             </div>
           </div>
         )}
       </div>
+
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden absolute top-full left-0 w-full bg-background/95 backdrop-blur-3xl border-b border-border shadow-2xl animate-in slide-in-from-top-4 duration-500 overflow-hidden">
+          <nav className="flex flex-col p-8 space-y-6">
+            <Link 
+              href="/" 
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="text-2xl font-heading font-black italic text-foreground hover:text-primary transition-colors"
+            >
+              Home
+            </Link>
+            <Link 
+              href="/studio" 
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="text-2xl font-heading font-black italic text-foreground hover:text-primary transition-colors"
+            >
+              Studio
+            </Link>
+            <Separator className="bg-border/50" />
+            <div className="flex items-center justify-between">
+              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Stay Connected</p>
+              <div className="flex items-center gap-4">
+                <a href="#"><FacebookIcon className="h-4 w-4" /></a>
+                <a href="#"><InstagramIcon className="h-4 w-4" /></a>
+              </div>
+            </div>
+          </nav>
+        </div>
+      )}
     </header>
   );
 }

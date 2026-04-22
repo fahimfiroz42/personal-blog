@@ -8,7 +8,7 @@ export default function AuthorBox({ author }: { author: string }) {
     <Card className="p-8 lg:p-12 mt-16 bg-card border-border rounded-3xl overflow-hidden relative shadow-sm">
       <div className="flex flex-col items-center text-center max-w-2xl mx-auto">
         <Avatar className="h-28 w-28 mb-6 border-4 border-muted p-1">
-          <AvatarImage src={`https://i.pravatar.cc/200?u=${author}`} />
+          <AvatarImage src="/me.png" />
           <AvatarFallback>{author[0]}</AvatarFallback>
         </Avatar>
         

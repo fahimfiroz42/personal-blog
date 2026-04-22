@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { usePosts } from '@/context/PostContext';
 import { Plus, Trash2, Edit, ExternalLink, LayoutDashboard, Search, Filter } from 'lucide-react';
 import Link from 'next/link';
@@ -16,8 +16,26 @@ export default function StudioDashboard() {
   const { posts, deletePost, isLoading } = usePosts();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
 
-  if (isLoading) {
+  useEffect(() => {
+    const auth = localStorage.getItem('studio_auth');
+    if (auth === 'true') {
+      setIsAuthenticated(true);
+    }
+    setIsAuthLoading(false);
+  }, []);
+
+  const handleLogin = () => {
+    if (password === 'admin123') {
+      setIsAuthenticated(true);
+      localStorage.setItem('studio_auth', 'true');
+    } else {
+      alert('Incorrect Secret Key');
+    }
+  };
+
+  if (isLoading || isAuthLoading) {
     return (
       <div className="flex h-[50vh] items-center justify-center">
         <div className="animate-pulse text-muted-foreground font-heading italic text-2xl">Loading Studio...</div>
@@ -46,14 +64,11 @@ export default function StudioDashboard() {
                 className="h-12 border-border bg-muted/30 rounded-xl text-center focus-visible:ring-primary"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && (password === 'admin123' ? setIsAuthenticated(true) : alert('Incorrect Secret Key'))}
+                onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
               />
             </div>
             <Button
-              onClick={() => {
-                if (password === 'admin123') setIsAuthenticated(true);
-                else alert('Incorrect Secret Key');
-              }}
+              onClick={handleLogin}
               className="w-full h-12 rounded-xl font-bold bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 hover:scale-[1.02] transition-transform shadow-xl"
             >
               Access Dashboard
@@ -73,13 +88,21 @@ export default function StudioDashboard() {
           </h1>
           <p className="text-muted-foreground text-sm font-medium">Manage your educational platform and track content performance.</p>
         </div>
-        <Link 
-          href="/studio/new" 
-          className={cn(buttonVariants({ variant: "default" }), "rounded-xl h-12 px-6 font-bold shadow-lg gap-2")}
-        >
-          <Plus className="h-5 w-5" />
-          Create New Story
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link 
+            href="/studio/settings" 
+            className={cn(buttonVariants({ variant: "outline" }), "rounded-xl h-12 px-6 font-bold border-border hover:bg-muted")}
+          >
+            Settings
+          </Link>
+          <Link 
+            href="/studio/new" 
+            className={cn(buttonVariants({ variant: "default" }), "rounded-xl h-12 px-6 font-bold shadow-lg gap-2")}
+          >
+            <Plus className="h-5 w-5" />
+            Create New Story
+          </Link>
+        </div>
       </div>
 
       <Separator className="bg-border" />

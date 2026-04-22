@@ -7,4 +7,5 @@ export interface BlogPost {
   date: string;
   author: string;
   featured?: boolean;
+  imageUrl?: string;
 }

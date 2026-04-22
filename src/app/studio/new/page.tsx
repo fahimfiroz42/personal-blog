@@ -12,6 +12,27 @@ import { Textarea } from '../../../components/ui/textarea';
 import { Label } from '../../../components/ui/label';
 import { Separator } from '../../../components/ui/separator';
 import { cn } from '../../../lib/utils';
+import dynamic from 'next/dynamic';
+import 'react-quill-new/dist/quill.snow.css';
+
+const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
+
+const modules = {
+  toolbar: [
+    [{ header: [1, 2, 3, false] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    ['link', 'code-block'],
+    ['clean'],
+  ],
+};
+
+const formats = [
+  'header',
+  'bold', 'italic', 'underline', 'strike',
+  'list',
+  'link', 'code-block',
+];
 
 export default function NewPostPage() {
   const { addPost } = usePosts();
@@ -63,31 +84,31 @@ export default function NewPostPage() {
 
   return (
     <div className="max-w-4xl mx-auto py-10 space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <Link 
           href="/studio" 
-          className={cn(buttonVariants({ variant: "ghost" }), "gap-2 text-muted-foreground hover:text-foreground")}
+          className={cn(buttonVariants({ variant: "ghost" }), "gap-2 text-muted-foreground hover:text-foreground w-fit")}
         >
           <ChevronLeft className="h-4 w-4" />
           Archive Dashboard
         </Link>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 w-full md:w-auto">
           <Link 
             href="/studio" 
-            className={cn(buttonVariants({ variant: "outline" }), "rounded-xl border-border px-6")}
+            className={cn(buttonVariants({ variant: "outline" }), "flex-1 md:flex-none rounded-xl border-border h-10 px-6")}
           >
             Cancel
           </Link>
-          <Button onClick={handleSubmit} className="rounded-xl bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 px-8 font-bold shadow-xl gap-2 h-10 hover:scale-[1.02] transition-transform">
+          <Button onClick={handleSubmit} className="flex-[2] md:flex-none rounded-xl bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 px-8 font-bold shadow-xl gap-2 h-10 hover:scale-[1.02] transition-transform">
             <Save className="h-4 w-4" />
-            Publish Story
+            Publish
           </Button>
         </div>
       </div>
 
-      <Card className="rounded-[2.5rem] border-border bg-card shadow-2xl overflow-hidden p-8 lg:p-12">
-        <CardHeader className="px-0 pt-0 pb-10 space-y-2">
-          <CardTitle className="text-4xl font-heading font-black tracking-tighter">Draft a New Story</CardTitle>
+      <Card className="rounded-[1.5rem] md:rounded-[2.5rem] border-border bg-card shadow-2xl overflow-hidden p-6 md:p-12">
+        <CardHeader className="px-0 pt-0 pb-8 md:pb-10 space-y-2">
+          <CardTitle className="text-3xl md:text-4xl font-heading font-black tracking-tighter">Draft a New Story</CardTitle>
           <CardDescription className="text-sm font-medium">Capture your findings, lessons, or strategies for the platform.</CardDescription>
         </CardHeader>
         
@@ -169,14 +190,47 @@ export default function NewPostPage() {
 
           <div className="space-y-4">
             <Label className="text-[10px] uppercase font-black tracking-[0.2em] text-muted-foreground ml-1">Main Narrative</Label>
-            <Textarea
-              required
-              rows={15}
-              placeholder="Write your story here... (Markdown supported)"
-              className="bg-muted/20 border-border rounded-[2rem] px-8 py-8 font-serif text-lg leading-relaxed focus-visible:ring-primary min-h-[400px]"
-              value={formData.content}
-              onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-            />
+            <div className="bg-muted/20 border-border rounded-[2rem] overflow-hidden min-h-[400px]">
+              <ReactQuill
+                theme="snow"
+                value={formData.content}
+                onChange={(content) => setFormData({ ...formData, content })}
+                modules={modules}
+                formats={formats}
+                className="h-full font-serif text-lg quill-editor"
+                placeholder="Write your story here... Use the toolbar for bold, italic, and more."
+              />
+            </div>
+            <style jsx global>{`
+              .quill-editor .ql-toolbar {
+                border: none !important;
+                background: rgba(0,0,0,0.02);
+                padding: 1.5rem !important;
+                border-bottom: 1px solid rgba(0,0,0,0.1) !important;
+              }
+              .quill-editor .ql-container {
+                border: none !important;
+                font-family: inherit !important;
+                font-size: 1.125rem !important;
+              }
+              .quill-editor .ql-editor {
+                padding: 2rem !important;
+                min-h-[350px];
+              }
+              .dark .quill-editor .ql-toolbar {
+                background: rgba(255,255,255,0.02);
+                border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+              }
+              .dark .ql-snow .ql-stroke {
+                stroke: #fff !important;
+              }
+              .dark .ql-snow .ql-fill {
+                fill: #fff !important;
+              }
+              .dark .ql-snow .ql-picker {
+                color: #fff !important;
+              }
+            `}</style>
           </div>
           
           <div className="pt-4 flex justify-end">

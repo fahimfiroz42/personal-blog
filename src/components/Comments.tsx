@@ -26,9 +26,11 @@ export default function CommentsSection({ postId }: { postId: string }) {
     fetchComments();
   }, [postId]);
 
+  const API_URL = 'http://localhost:5000/api/comments';
+
   const fetchComments = async () => {
     try {
-      const res = await fetch(`/api/comments?postId=${postId}`);
+      const res = await fetch(`${API_URL}/${postId}`);
       const data = await res.json();
       setComments(Array.isArray(data) ? data : []);
     } catch (error) {
@@ -44,7 +46,7 @@ export default function CommentsSection({ postId }: { postId: string }) {
 
     setIsSubmitting(true);
     try {
-      const res = await fetch('/api/comments', {
+      const res = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, postId }),
@@ -52,7 +54,9 @@ export default function CommentsSection({ postId }: { postId: string }) {
       
       if (res.ok) {
         const newComment = await res.json();
-        setComments([newComment, ...comments]);
+        // Map _id to id for consistency
+        const processedComment = { ...newComment, id: newComment._id };
+        setComments([processedComment, ...comments]);
         setFormData({ author: '', email: '', content: '' });
       }
     } catch (error) {
