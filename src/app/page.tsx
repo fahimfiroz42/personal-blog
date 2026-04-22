@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export default function Home() {
-  const { posts } = usePosts();
+  const { posts, isLoading } = usePosts();
   const searchParams = useSearchParams();
   const [visibleCount, setVisibleCount] = useState(6);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -73,32 +73,48 @@ export default function Home() {
       setSubMessage('Something went wrong. Please try again.');
     }
   };
-  
-  if (posts.length === 0 && !isLoadingMore) {
+
+  // 1. First Loading Animation
+  if (isLoading) {
     return (
-      <div className="flex min-h-[70vh] flex-col items-center justify-center text-center space-y-8 px-6">
-        <div className="h-24 w-24 bg-primary/10 rounded-full flex items-center justify-center animate-pulse">
-          <Mail className="h-10 w-10 text-primary" />
+      <div className="flex min-h-[60vh] flex-col items-center justify-center">
+        <LoadingSpinner className="scale-150" />
+      </div>
+    );
+  }
+  
+  // 2. Database Connection Check
+  if (posts.length === 0 && !isLoading) {
+    return (
+      <div className="flex min-h-[70vh] flex-col items-center justify-center text-center space-y-12 px-6 animate-in fade-in zoom-in duration-1000">
+        <div className="relative">
+          <div className="absolute inset-0 bg-primary/20 rounded-full blur-3xl animate-pulse -z-10" />
+          <div className="h-24 w-24 bg-background border border-border/50 rounded-[2rem] flex items-center justify-center shadow-2xl rotate-3">
+            <Mail className="h-10 w-10 text-primary" />
+          </div>
         </div>
-        <div className="space-y-4">
-          <h2 className="text-4xl font-heading font-black italic tracking-tight">Database Connection Required</h2>
-          <p className="text-muted-foreground max-w-lg mx-auto text-lg leading-relaxed font-medium">
-            Your premium blog is ready, but it needs to connect to your MongoDB Atlas cluster. 
-            Please ensure your IP address is <span className="text-primary font-bold">whitelisted</span> in the MongoDB Atlas dashboard.
+        <div className="space-y-4 max-w-xl">
+          <h2 className="text-4xl md:text-5xl font-heading font-black italic tracking-tighter text-foreground">Awaiting Connection</h2>
+          <p className="text-muted-foreground text-lg leading-relaxed font-medium">
+            Your premium archive is ready, but it needs to securely connect to your <span className="text-primary font-bold italic">MongoDB Atlas</span> cluster. 
           </p>
+          <div className="p-6 bg-muted/30 border border-border/50 rounded-2xl text-left space-y-2 mt-8">
+             <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Action Required:</p>
+             <p className="text-xs font-medium leading-relaxed">Ensure your current IP address is whitelisted in your MongoDB Network Access settings.</p>
+          </div>
         </div>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-6 w-full max-w-xs">
           <a 
             href="https://cloud.mongodb.com/" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="bg-primary text-white px-8 py-4 rounded-2xl font-black uppercase text-[11px] tracking-widest hover:shadow-xl transition-all"
+            className="bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 h-14 rounded-2xl flex items-center justify-center font-black uppercase text-[11px] tracking-widest hover:scale-[1.02] transition-all shadow-2xl"
           >
             Go to MongoDB Atlas
           </a>
           <button 
             onClick={() => window.location.reload()} 
-            className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors"
+            className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground hover:text-primary transition-all hover:tracking-[0.5em]"
           >
             Refresh Once Whitelisted
           </button>
