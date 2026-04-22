@@ -23,8 +23,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={cn(inter.variable, lora.variable, "font-sans", geist.variable)} suppressHydrationWarning>
-      <body className="min-h-screen bg-[#fcfcfc] dark:bg-[#121212] font-sans antialiased text-[#1a1a1a] dark:text-gray-200 transition-colors duration-300">
+    <html lang="en" className={cn(inter.variable, lora.variable, "font-sans overflow-x-hidden", geist.variable)} suppressHydrationWarning>
+      <body className="min-h-screen bg-[#fcfcfc] dark:bg-[#121212] font-sans antialiased text-[#1a1a1a] dark:text-gray-200 transition-colors duration-300 overflow-x-hidden">
         <PostProvider>
           <Navbar />
           <main className="container mx-auto px-4 pt-60 pb-12">

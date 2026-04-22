@@ -32,7 +32,10 @@ export default function CommentsSection({ postId }: { postId: string }) {
     try {
       const res = await fetch(`${API_URL}/${postId}`);
       const data = await res.json();
-      setComments(Array.isArray(data) ? data : []);
+      const normalizedData = Array.isArray(data) 
+        ? data.map((c: any) => ({ ...c, id: c._id || c.id || Math.random().toString() })) 
+        : [];
+      setComments(normalizedData);
     } catch (error) {
       console.error('Failed to fetch comments');
     } finally {

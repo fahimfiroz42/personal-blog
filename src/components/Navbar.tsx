@@ -36,10 +36,10 @@ export default function Navbar() {
   return (
     <header
       className={cn(
-        "fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-700 ease-in-out w-full",
+        "fixed inset-x-0 z-50 transition-all duration-700 ease-in-out mx-auto",
         isScrolled
           ? 'top-4 w-[95%] lg:w-[1100px] border border-white/20 dark:border-white/10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.2)] rounded-3xl bg-background/70 backdrop-blur-2xl px-6 md:px-8 py-3'
-          : 'top-0 border-b border-border/50 bg-background/50 backdrop-blur-md'
+          : 'top-0 w-full border-b border-border/50 bg-background/50 backdrop-blur-md'
       )}
     >
       {/* Top Bar (Hidden on Scroll and Mobile) */}

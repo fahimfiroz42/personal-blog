@@ -131,8 +131,8 @@ export default function Home() {
   return (
     <div className="space-y-32 pb-20">
       {/* Premium Hero Section */}
-      <section className="relative pt-20 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[150%] h-[500px] bg-[radial-gradient(circle_at_center,_var(--primary)_0%,_transparent_70%)] opacity-[0.03] blur-[120px] -z-10" />
+      <section className="relative pt-20 overflow-x-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[120%] h-[500px] bg-[radial-gradient(circle_at_center,_var(--primary)_0%,_transparent_70%)] opacity-[0.03] blur-[120px] -z-10" />
         
         <div className="flex flex-col items-center text-center space-y-8 mb-24">
           <Badge variant="outline" className="px-6 py-2 border-primary/20 text-primary text-[10px] font-black uppercase tracking-[0.4em] backdrop-blur-sm bg-primary/5">
